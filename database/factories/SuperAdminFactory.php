@@ -10,10 +10,12 @@ class SuperAdminFactory extends Factory
 
     public function definition(): array
     {
-        //DUDAS --> 
+
         return [
-            'mail' => $this->faker->unique()->safeEmail,
+            'email' => fake()->unique()->safeEmail(),
             'password' => bcrypt('secret'),
+            'career' => fake()->randomElement('SA'),
+
         ];
     }
 }
