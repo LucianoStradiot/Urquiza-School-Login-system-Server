@@ -15,20 +15,22 @@ class AuthController extends Controller
     {
         try {
             $data = $request->validated();
-
-            $user = Student::create([
+            $student = Student::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
                 'career' => $data['career'],
             ]);
 
-            $token = $user->createToken('main')->plainTextToken;
+            $token = $student->createToken('main')->plainTextToken;
 
             return response()->json([
-                'user' => $user,
+                'student' => $student,
                 'token' => $token
             ]);
+
+
+
         } catch (\Exception $e) {
             \Log::error($e);
             error_log($e->getMessage());
@@ -39,27 +41,31 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        $credentials = $request->validated();
-        if (!Auth::attempt($credentials)) {
+        try {
+            $credentials = $request->validated();
+            if (!Auth::attempt($credentials)) {
+                return response([
+                    'message' => 'Email address or password is inconrrect'
+                ], 422);
+            }
+
+            $student = Auth::user();
+            $token = $student->createToken('main')->plainTextToken;
+
             return response([
-                'message' => 'Email address or password is inconrrect'
+                'student' => $student,
+                'token' => $token
             ]);
+        } catch (\Exception $e) {
+            \Log::error($e);
+            return response()->json(['error' => 'Internal Server Error'], 500);
         }
-
-        $user = Auth::user();
-        $token = $user->createToken('main')->plainTextToken;
-
-        return response([
-            'user' => $user,
-            'token' => $token
-        ]);
-
     }
 
     public function logout(Request $request)
     {
-        $user = $request->user();
-        $user->currentAccessToken()->delete();
+        $student = $request->user();
+        $student->currentAccessToken()->delete();
         return response('', 204);
     }
 }
