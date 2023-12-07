@@ -15,7 +15,7 @@ class LoginSuperAdminRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|exists:students,email',
+            'email' => 'required|email|exists:super_admins,email',
             'password' => 'required'
         ];
 

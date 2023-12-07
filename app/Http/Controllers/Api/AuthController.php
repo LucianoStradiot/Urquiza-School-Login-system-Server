@@ -8,6 +8,7 @@ use App\Http\Requests\SignUpStudentRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use \App\Models\Student;
+use \App\Models\SuperAdmin;
 
 class AuthController extends Controller
 {
@@ -17,17 +18,17 @@ class AuthController extends Controller
 
         try {
             $data = $request->validated();
-            $student = Student::create([
+            $user = Student::create([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
                 'career' => $data['career'],
             ]);
 
-            $token = $student->createToken('main')->plainTextToken;
+            $token = $user->createToken('main')->plainTextToken;
 
             return response()->json([
-                'student' => $student,
+                'user' => $user,
                 'token' => $token
             ]);
 
@@ -48,20 +49,22 @@ class AuthController extends Controller
                 'password' => $request->input('password'),
             ];
 
-            $student = Student::where('email', $request->email)->first();
-            if (!$student) {
-                return response()->json(['error' => 'Invalid credentials email'], 401);
-            }
-            if (!password_verify($request->password, $student->password)) {
-                return response()->json(['error' => 'Invalid credentials password'], 401);
+            $user = Student::where('email', $request->email)->first() ?? SuperAdmin::where('email', $request->email)->first();
+
+            if (optional($user)->email !== $request->email) {
+                return response()->json(['messageEmail' => 'Email Invalido'], 422);
             }
 
-            Auth::login($student);
+            if (!password_verify($request->password, $user->password)) {
+                return response()->json(['messagePassword' => 'Contraseña incorrecta'], 422);
+            }
+
+            Auth::login($user);
             $request->session()->regenerate();
-            $token = $student->createToken('main')->plainTextToken;
+            $token = $user->createToken('main')->plainTextToken;
 
             return response([
-                'student' => $student,
+                'user' => $user,
                 'token' => $token
             ]);
 
@@ -71,6 +74,7 @@ class AuthController extends Controller
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
+
 
 
     public function logout(Request $request)
