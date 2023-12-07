@@ -4,15 +4,17 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\SignUpRequest;
+use App\Http\Requests\SignUpStudentRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use \App\Models\Student;
 
 class AuthController extends Controller
 {
-    public function signup(SignUpRequest $request)
+
+    public function signup(SignUpStudentRequest $request)
     {
+
         try {
             $data = $request->validated();
             $student = Student::create([
@@ -30,7 +32,6 @@ class AuthController extends Controller
             ]);
 
 
-
         } catch (\Exception $e) {
             \Log::error($e);
             error_log($e->getMessage());
@@ -42,25 +43,35 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         try {
-            $credentials = $request->validated();
-            if (!Auth::attempt($credentials)) {
-                return response([
-                    'message' => 'Email address or password is inconrrect'
-                ], 422);
+            $credentials = [
+                'email' => $request->input('email'),
+                'password' => $request->input('password'),
+            ];
+
+            $student = Student::where('email', $request->email)->first();
+            if (!$student) {
+                return response()->json(['error' => 'Invalid credentials email'], 401);
+            }
+            if (!password_verify($request->password, $student->password)) {
+                return response()->json(['error' => 'Invalid credentials password'], 401);
             }
 
-            $student = Auth::user();
+            Auth::login($student);
+            $request->session()->regenerate();
             $token = $student->createToken('main')->plainTextToken;
 
             return response([
                 'student' => $student,
                 'token' => $token
             ]);
+
         } catch (\Exception $e) {
             \Log::error($e);
+            error_log($e->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
+
 
     public function logout(Request $request)
     {
