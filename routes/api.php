@@ -16,7 +16,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return $request->user();
     });
 });
-Route::post('/signup/super-admin', [AuthControllerSuperAdmin::class, 'signupSuperAdmin']);
+Route::post('/signup/super-admin', [AuthController::class, 'signupSuperAdmin']);
 Route::post('/signup', [AuthController::class, 'signup']);
 Route::post('/login', [AuthController::class, 'login']);
 
