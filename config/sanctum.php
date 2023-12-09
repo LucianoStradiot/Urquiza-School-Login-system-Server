@@ -32,7 +32,7 @@ return [
     | token that's present on an incoming request for authentication.
     |
     */
-
+    'prefix' => 'api',
     'guard' => ['web'],
 
     /*
