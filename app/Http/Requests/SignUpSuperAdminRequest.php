@@ -16,7 +16,6 @@ class SignUpSuperAdminRequest extends FormRequest
     public function rules(): array
     {
         return [
-
             'email' => 'required|email|unique:super_admins,email',
             'password' => [
                 'required',

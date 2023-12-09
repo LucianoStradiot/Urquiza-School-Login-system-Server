@@ -21,6 +21,7 @@ class AuthController extends Controller
             $data = $request->validated();
             $user = Student::create([
                 'name' => $data['name'],
+                'dni' => $data['dni'],
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
                 'career' => $data['career'],
@@ -46,7 +47,6 @@ class AuthController extends Controller
         try {
             $data = $request->validated();
             $user = SuperAdmin::create([
-
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
                 'career' => $data['career'],
@@ -63,7 +63,6 @@ class AuthController extends Controller
 
         } catch (\Exception $e) {
             \Log::error($e);
-            error_log($e->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }

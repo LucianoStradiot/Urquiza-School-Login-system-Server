@@ -20,6 +20,7 @@ class StudentFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'dni' => fake(),
             'email' => fake()->unique()->safeEmail(),
             'password' => Hash::make($this->faker->password()),
             'career' => fake()->randomElement(['AF', 'DS', 'ITI']),

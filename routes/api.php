@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\StudentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -11,6 +12,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/super-admin', function (Request $request) {
         return $request->user();
     });
+    Route::apiResource('/super-admin/administration', StudentController::class);
     Route::get('/alumno', function (Request $request) {
         return $request->user();
     });
