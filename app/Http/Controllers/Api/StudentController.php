@@ -51,7 +51,7 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
-        $this->authorize('delete', $student);
+        $this->authorize('delete student', $student);
         try {
             $student->delete();
             return response()->json(['message' => 'Student deleted successfully'], 204);

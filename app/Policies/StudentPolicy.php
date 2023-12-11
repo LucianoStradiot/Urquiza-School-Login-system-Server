@@ -9,6 +9,6 @@ class StudentPolicy
 {
     public function delete(SuperAdmin $superAdmin, Student $student)
     {
-        return $superAdmin->career === 'SA';
+        return $superAdmin->hasRole('superadmin');
     }
 }

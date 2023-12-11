@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use \App\Models\Student;
 use \App\Models\SuperAdmin;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
@@ -27,6 +28,8 @@ class AuthController extends Controller
                 'career' => $data['career'],
             ]);
 
+            $superadminRole = Role::where('name', 'superadmin')->first();
+            $user->assignRole($superadminRole);
             $token = $user->createToken('main')->plainTextToken;
 
             return response()->json([
@@ -52,6 +55,7 @@ class AuthController extends Controller
                 'career' => $data['career'],
             ]);
 
+            $user->assignRole('superadmin');
             $token = $user->createToken('main')->plainTextToken;
 
             return response()->json([
@@ -63,6 +67,7 @@ class AuthController extends Controller
 
         } catch (\Exception $e) {
             \Log::error($e);
+            error_log($e->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
