@@ -12,21 +12,22 @@ class Student extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-  
+
     protected $fillable = [
         'name',
+        'dni',
         'email',
         'password',
         'career'
     ];
 
- 
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-   
+
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
