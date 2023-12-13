@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\StudentResource;
 use App\Models\Student;
 use App\Http\Requests\StoreStudentRequest;
-use App\Http\Requests\UpdateStudentRequest;
 
 class StudentController extends Controller
 {
@@ -17,7 +16,7 @@ class StudentController extends Controller
     {
         try {
 
-            return StudentResource::collection(Student::query()->orderBy("id", "desc")->paginate(10));
+            return StudentResource::collection(Student::query()->orderBy("id", "desc")->get());
         } catch (\Exception $e) {
             \Log::error($e);
             error_log($e->getMessage());
@@ -42,8 +41,6 @@ class StudentController extends Controller
     public function show(Student $student)
     {
         try {
-
-
             return new StudentResource($student);
         } catch (\Exception $e) {
             \Log::error($e);
@@ -53,9 +50,15 @@ class StudentController extends Controller
     }
 
 
-    public function destroy(Student $student)
+    public function destroy(Student $id)
     {
-        $student->delete();
-        return response()->json("", 204);
+        try {
+            $id->delete();
+            return response()->json("", 204);
+        } catch (\Exception $e) {
+            \Log::error($e);
+            error_log($e->getMessage());
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
     }
 }
