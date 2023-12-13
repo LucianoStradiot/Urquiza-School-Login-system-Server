@@ -55,7 +55,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://urquiza-server.vercel.app'),
 
     'frontend_url' => env('FRONTEND_URL', 'http://localhost:3000'),
 
@@ -158,16 +158,16 @@ return [
     */
 
     'providers' => ServiceProvider::defaultProviders()->merge([
-        /*
-         * Package Service Providers...
-         */
+            /*
+             * Package Service Providers...
+             */
 
-        /*
-         * Application Service Providers...
-         */
+            /*
+             * Application Service Providers...
+             */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+            // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
     ])->toArray(),

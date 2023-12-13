@@ -4,28 +4,59 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\SignUpRequest;
+use App\Http\Requests\SignUpStudentRequest;
+use App\Http\Requests\SignUpSuperAdminRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use \App\Models\Student;
+use \App\Models\SuperAdmin;
 
 class AuthController extends Controller
 {
-    public function signup(SignUpRequest $request)
+
+    public function signup(SignUpStudentRequest $request)
     {
+
         try {
             $data = $request->validated();
-            $student = Student::create([
+            $user = Student::create([
                 'name' => $data['name'],
+                'dni' => $data['dni'],
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
                 'career' => $data['career'],
             ]);
 
-            $token = $student->createToken('main')->plainTextToken;
+            $token = $user->createToken('main')->plainTextToken;
 
             return response()->json([
-                'student' => $student,
+                'user' => $user,
+                'token' => $token
+            ]);
+
+
+        } catch (\Exception $e) {
+            \Log::error($e);
+            error_log($e->getMessage());
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
+    public function signupSuperAdmin(SignUpSuperAdminRequest $request)
+    {
+        try {
+            $data = $request->validated();
+            $user = SuperAdmin::create([
+
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+                'career' => $data['career'],
+            ]);
+
+            $token = $user->createToken('main')->plainTextToken;
+
+            return response()->json([
+                'user' => $user,
                 'token' => $token
             ]);
 
@@ -38,29 +69,41 @@ class AuthController extends Controller
         }
     }
 
-
     public function login(LoginRequest $request)
     {
         try {
-            $credentials = $request->validated();
-            if (!Auth::attempt($credentials)) {
-                return response([
-                    'message' => 'Email address or password is inconrrect'
-                ], 422);
+            $credentials = [
+                'email' => $request->input('email'),
+                'password' => $request->input('password'),
+            ];
+
+            $user = Student::where('email', $request->email)->first() ?? SuperAdmin::where('email', $request->email)->first();
+
+            if (optional($user)->email !== $request->email) {
+                return response()->json(['messageEmail' => 'Email Invalido'], 422);
             }
 
-            $student = Auth::user();
-            $token = $student->createToken('main')->plainTextToken;
+            if (!password_verify($request->password, $user->password)) {
+                return response()->json(['messagePassword' => 'Contraseña incorrecta'], 422);
+            }
+
+            Auth::login($user);
+            $request->session()->regenerate();
+            $token = $user->createToken('main')->plainTextToken;
 
             return response([
-                'student' => $student,
+                'user' => $user,
                 'token' => $token
             ]);
+
         } catch (\Exception $e) {
             \Log::error($e);
+            error_log($e->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
+
+
 
     public function logout(Request $request)
     {

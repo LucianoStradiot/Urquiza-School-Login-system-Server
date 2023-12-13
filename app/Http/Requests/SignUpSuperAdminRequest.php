@@ -17,7 +17,7 @@ class SignUpSuperAdminRequest extends FormRequest
     {
         return [
 
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:super_admins,email',
             'password' => [
                 'required',
                 Password::min(8)
