@@ -17,3 +17,10 @@ Route::post('/login', [AuthControllerSuperAdmin::class, 'loginSuperAdmin']);
 Route::post('/logout', [AuthControllerSuperAdmin::class, 'logoutSuperAdmin']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
+
+
+
+
+
+
+
