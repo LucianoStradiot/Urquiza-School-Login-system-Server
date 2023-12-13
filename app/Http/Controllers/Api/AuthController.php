@@ -21,6 +21,7 @@ class AuthController extends Controller
             $data = $request->validated();
             $user = Student::create([
                 'name' => $data['name'],
+                'dni' => $data['dni'],
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
                 'career' => $data['career'],
