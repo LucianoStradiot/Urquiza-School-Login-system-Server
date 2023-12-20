@@ -41,10 +41,8 @@ class LoginRequest extends FormRequest
             'email.required' => 'El correo electrónico es obligatorio.',
             'email.email' => 'Ingresa una dirección de correo electrónico válida.',
             'email.regex' => 'El correo electrónico ingresado no respeta el formato correcto.',
-            'email.no_spaces' => 'El correo electrónico no puede contener espacios en blanco.',
             'password.required' => 'La contraseña es obligatoria.',
             'password.regex' => 'La contraseña debe tener al menos 8 caracteres, una letra mayúscula, minúscula y un número.',
-            'password.no_spaces' => 'La contraseña no puede contener espacios en blanco.',
 
         ];
     }
