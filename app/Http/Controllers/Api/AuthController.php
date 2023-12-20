@@ -80,11 +80,11 @@ class AuthController extends Controller
             $user = Student::where('email', $request->email)->first() ?? SuperAdmin::where('email', $request->email)->first();
 
             if (optional($user)->email !== $request->email) {
-                return response()->json(['messageEmail' => 'Email Invalido'], 422);
+                return response()->json(['messageEmail' => 'Email incorrecto para la contraseña ingresada'], 422);
             }
 
             if (!password_verify($request->password, $user->password)) {
-                return response()->json(['messagePassword' => 'Contraseña incorrecta'], 422);
+                return response()->json(['messagePassword' => 'Contraseña incorrecta para el email ingresado'], 422);
             }
 
             Auth::login($user);
