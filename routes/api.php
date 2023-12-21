@@ -9,7 +9,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/super-admin/administration', [StudentController::class, 'index']);
     Route::patch('/students/{id}', [StudentController::class, 'updateApprovalStatus']);
     Route::delete('/students/delete/{id}', [StudentController::class, 'destroy']);
-
 });
 
 Route::post('/signup/super-admin', [AuthController::class, 'signupSuperAdmin']);

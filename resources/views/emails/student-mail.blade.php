@@ -12,7 +12,7 @@
     <p>Estimado Estudiante,</p>
 
     @if ($approved)
-    <p>Felicidades, tu registro ha sido aprobado.</p>
+    <p style="color: red;">Felicidades, tu registro ha sido aprobado.</p>
     @else
     <p>Lamentamos informarte que tu registro ha sido rechazado.</p>
     @endif
