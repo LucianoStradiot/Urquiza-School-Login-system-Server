@@ -18,7 +18,8 @@ class Student extends Authenticatable
         'dni',
         'email',
         'password',
-        'career'
+        'career',
+        'approved'
     ];
 
 
@@ -29,7 +30,6 @@ class Student extends Authenticatable
 
 
     protected $casts = [
-        'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
 }

@@ -24,7 +24,6 @@ class StudentFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'password' => Hash::make($this->faker->password()),
             'career' => fake()->randomElement(['AF', 'DS', 'ITI']),
-            'email_verified_at' => now(),
             'remember_token' => Str::random(10),
         ];
 
