@@ -10,11 +10,12 @@ return new class extends Migration {
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('dni');
-            $table->string('email')->unique();
-            $table->string('password', 60);
-            $table->string('career');
+            $table->string('name')->default('');
+            $table->string('dni')->default('');
+            $table->string('email')->unique()->default('');
+            $table->string('password', 60)->default('');
+            $table->string('career')->default('');
+            $table->boolean('approved')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

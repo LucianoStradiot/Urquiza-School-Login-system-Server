@@ -10,11 +10,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/super-admin', function (Request $request) {
         return $request->user();
     });
-    Route::get('/alumno', function (Request $request) {
-        return $request->user();
-    });
     Route::get('/super-admin/administration', [StudentController::class, 'index']);
     Route::delete('/super-admin/administration/{id}', [StudentController::class, 'destroy']);
+    Route::patch('/students/{id}', [StudentController::class, 'updateApprovalStatus']);
+
 });
 
 Route::post('/signup/super-admin', [AuthController::class, 'signupSuperAdmin']);
