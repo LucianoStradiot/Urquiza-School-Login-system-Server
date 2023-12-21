@@ -19,9 +19,9 @@ class StudentMail extends Mailable
 
     public function build()
     {
-        $status = $this->approved ? 'Aprobado' : 'Rechazado';
+        $status = $this->approved ? 'Aprobada' : 'Rechazada';
 
-        return $this->subject("Estado de aprobación $status")
+        return $this->subject("Solicitud de registro: $status!")
             ->view('emails.student-mail');
     }
 }

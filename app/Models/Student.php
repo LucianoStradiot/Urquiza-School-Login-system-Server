@@ -18,7 +18,8 @@ class Student extends Authenticatable
         'dni',
         'email',
         'password',
-        'career'
+        'career',
+        'approved'
     ];
 
 

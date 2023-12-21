@@ -17,8 +17,9 @@ class StudentController extends Controller
     public function index()
     {
         try {
+            $students = Student::where('approved', false)->orderBy("id", "desc")->get();
 
-            return StudentResource::collection(Student::query()->orderBy("id", "desc")->get());
+            return StudentResource::collection($students);
         } catch (\Exception $e) {
             \Log::error($e);
             error_log($e->getMessage());
@@ -55,11 +56,17 @@ class StudentController extends Controller
         }
     }
 
-    public function destroy(Student $id)
+    public function destroy(Request $request, Student $id)
     {
         try {
+            $approved = $request->input('approved', false);
+
+            $id->approved = $approved;
             $id->delete();
-            return response()->json("", 204);
+
+            Mail::to($id->email)->send(new StudentMail($approved));
+
+            return response()->json(['message' => 'Estado de aprobación actualizado con éxito.']);
         } catch (\Exception $e) {
             \Log::error($e);
             error_log($e->getMessage());
