@@ -16,7 +16,6 @@ return new class extends Migration {
             $table->string('password', 60)->default('');
             $table->string('career')->default('');
             $table->boolean('approved')->default(false);
-            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

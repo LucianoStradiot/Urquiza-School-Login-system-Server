@@ -44,9 +44,11 @@ class StudentController extends Controller
             $approved = $request->input('approved', false);
 
             $id->approved = $approved;
+            $name = $id->name;
+            $email = $id->email;
             $id->save();
 
-            Mail::to($id->email)->send(new StudentMail($approved));
+            Mail::to($id->email)->send(new StudentMail($approved, $name, $email));
 
             return response()->json(['message' => 'Estado de aprobación actualizado con éxito.']);
         } catch (\Exception $e) {
@@ -62,9 +64,11 @@ class StudentController extends Controller
             $approved = $request->input('approved', false);
 
             $id->approved = $approved;
+            $name = $id->name;
+            $email = $id->email;
             $id->delete();
 
-            Mail::to($id->email)->send(new StudentMail($approved));
+            Mail::to($id->email)->send(new StudentMail($approved, $name, $email));
 
             return response()->json(['message' => 'Estado de aprobación actualizado con éxito.']);
         } catch (\Exception $e) {
