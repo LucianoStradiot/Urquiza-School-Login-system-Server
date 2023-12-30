@@ -27,6 +27,23 @@ class StudentController extends Controller
         }
     }
 
+    public function indexById($studentId)
+    {
+        try {
+            $id = Student::find($studentId);
+
+            if (!$id) {
+                return response()->json(['error' => 'Student not found'], 404);
+            }
+
+            return new StudentResource($id);
+        } catch (\Exception $e) {
+            \Log::error($e);
+            error_log($e->getMessage());
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+    }
+
     public function show(Student $student)
     {
         try {

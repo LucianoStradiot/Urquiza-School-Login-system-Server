@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/super-admin/administration', [StudentController::class, 'index']);
+    Route::get('/students/{id}', [StudentController::class, 'indexById']);
     Route::patch('/students/{id}', [StudentController::class, 'updateApprovalStatus']);
     Route::delete('/students/delete/{id}', [StudentController::class, 'destroy']);
 });
