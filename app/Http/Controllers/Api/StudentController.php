@@ -63,9 +63,11 @@ class StudentController extends Controller
                 Storage::disk('public')->delete('profiles/' . $oldProfilePhoto);
             }
 
+            $userResource = new StudentResource($user);
+
             return response()->json([
                 'success' => 'Foto de perfil actualizada correctamente',
-                'profile_photo' => asset('storage/profiles/' . basename($profilePhotoPath))
+                'user' => $userResource,
             ]);
         } catch (\Exception $e) {
             \Log::error($e);

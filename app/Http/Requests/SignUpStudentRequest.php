@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SignUpStudentRequest extends FormRequest
@@ -22,7 +21,7 @@ class SignUpStudentRequest extends FormRequest
                 'unique:students,email',
             ],
             'password' => ['required', 'regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$/'],
-            'career' => 'required|in:AF,DS,ITI'
+            'career' => 'required|in:AF,DS,ITI',
         ];
     }
 
@@ -43,6 +42,9 @@ class SignUpStudentRequest extends FormRequest
             'password.required' => 'La contraseña es obligatoria.',
             'password.regex' => 'La contraseña debe tener al menos 8 caracteres, una letra mayúscula, minúscula y un número.',
             'career.required' => 'La carrera es obligatoria',
+            'profile_photo.image' => 'La foto de perfil debe ser una imagen.',
+            'profile_photo.mimes' => 'La foto de perfil debe estar en formato jpeg, png, jpg, gif.',
+            'profile_photo.max' => 'La foto de perfil no debe superar 2 mb.',
         ];
     }
 }

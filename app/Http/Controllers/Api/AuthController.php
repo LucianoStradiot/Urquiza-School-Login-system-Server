@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use \App\Models\Student;
 use \App\Models\SuperAdmin;
+use App\Http\Resources\StudentResource;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -19,20 +21,30 @@ class AuthController extends Controller
 
         try {
             $data = $request->validated();
+            $profilePhotoPath = null;
+
+            if ($request->hasFile('profile_photo')) {
+                $profilePhotoPath = $request->file('profile_photo')->store('profiles', 'public');
+            }
+
             $user = Student::create([
                 'name' => $data['name'],
                 'dni' => $data['dni'],
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
                 'career' => $data['career'],
+                'profile_photo' => basename($profilePhotoPath),
             ]);
 
             $token = $user->createToken('main')->plainTextToken;
 
+            $userResource = new StudentResource($user);
+
             return response()->json([
-                'user' => $user,
+                'user' => $userResource,
                 'token' => $token
             ]);
+
 
 
         } catch (\Exception $e) {
