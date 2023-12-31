@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('email')->unique()->default('');
             $table->string('password', 60)->default('');
             $table->string('career')->default('');
+            $table->string('profile_photo')->nullable();
             $table->boolean('approved')->default(false);
             $table->rememberToken();
             $table->timestamps();

@@ -19,7 +19,8 @@ class Student extends Authenticatable
         'email',
         'password',
         'career',
-        'approved'
+        'approved',
+        'profile_photo',
     ];
 
 
@@ -32,4 +33,5 @@ class Student extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+
 }
