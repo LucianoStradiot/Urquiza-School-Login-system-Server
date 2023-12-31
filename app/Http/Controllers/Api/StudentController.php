@@ -7,7 +7,9 @@ use App\Http\Resources\StudentResource;
 use App\Models\Student;
 use App\Mail\StudentMail;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateStudentProfile;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
@@ -42,6 +44,35 @@ class StudentController extends Controller
             error_log($e->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
+    }
+
+    public function updateProfilePhoto(UpdateStudentProfile $request)
+    {
+        try {
+            $user = auth()->user();
+
+            $oldProfilePhoto = $user->profile_photo;
+            $user->update(['profile_photo' => null]);
+
+            $profilePhoto = $request->file('profile_photo');
+            $profilePhotoPath = $profilePhoto->store('profiles', 'public');
+
+            $user->update(['profile_photo' => basename($profilePhotoPath)]);
+
+            if ($oldProfilePhoto) {
+                Storage::disk('public')->delete('profiles/' . $oldProfilePhoto);
+            }
+
+            return response()->json([
+                'success' => 'Foto de perfil actualizada correctamente',
+                'profile_photo' => asset('storage/profiles/' . basename($profilePhotoPath))
+            ]);
+        } catch (\Exception $e) {
+            \Log::error($e);
+            error_log($e->getMessage());
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
+
     }
 
     public function show(Student $student)

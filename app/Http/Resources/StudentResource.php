@@ -7,11 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class StudentResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
+
     public function toArray(Request $request): array
     {
         return [
@@ -20,7 +16,13 @@ class StudentResource extends JsonResource
             'dni' => $this->dni,
             'email' => $this->email,
             'career' => $this->career,
+            'profile_photo' => $this->profilePhotoUrl(),
             'created_at' => $this->created_at->format("d-m-Y"),
         ];
+    }
+
+    protected function profilePhotoUrl()
+    {
+        return $this->profile_photo ? asset('storage/profiles/' . $this->profile_photo) : null;
     }
 }

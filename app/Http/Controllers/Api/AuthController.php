@@ -90,7 +90,6 @@ class AuthController extends Controller
                 return response()->json(['messageVerification' => 'Su cuenta aún no ha sido verificada. Por favor, revise su casilla de correo electrónico o comuníquese con la institución.'], 422);
             }
 
-
             Auth::login($user);
             $request->session()->regenerate();
             $token = $user->createToken('main')->plainTextToken;
