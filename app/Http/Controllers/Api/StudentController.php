@@ -66,7 +66,7 @@ class StudentController extends Controller
             $userResource = new StudentResource($user);
 
             return response()->json([
-                'success' => 'Foto de perfil actualizada correctamente',
+                'success' => 'Foto actualizada correctamente',
                 'user' => $userResource,
             ]);
         } catch (\Exception $e) {
