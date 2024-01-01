@@ -38,10 +38,9 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'root' => env('VERCEL_TEMP_DIR', storage_path('app/public')),
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
-            'throw' => false,
         ],
 
         's3' => [

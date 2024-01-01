@@ -45,8 +45,6 @@ class AuthController extends Controller
                 'token' => $token
             ]);
 
-
-
         } catch (\Exception $e) {
             \Log::error($e);
             error_log($e->getMessage());
