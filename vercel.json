@@ -21,7 +21,6 @@
         "VIEW_COMPILED_PATH": "/tmp",
         "TMPDIR": "/var/task/user/storage/framework/tmp",
         "SESSION_DRIVER": "cookie",
-        "APP_KEY": "@APP_KEY@",
         "CACHE_DRIVER": "file",
         "CACHE_DIR": "/var/task/user/storage/framework/cache/data",
         "CACHE_PREFIX": "prefix",
