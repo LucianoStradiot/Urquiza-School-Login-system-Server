@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use \CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class StudentResource extends JsonResource
 {
@@ -23,6 +24,7 @@ class StudentResource extends JsonResource
 
     protected function profilePhotoUrl()
     {
-        return $this->profile_photo ? asset('storage/profiles/' . $this->profile_photo) : null;
+        return $this->profile_photo ? Cloudinary::getImage($this->profile_photo)->toUrl() : null;
     }
+
 }

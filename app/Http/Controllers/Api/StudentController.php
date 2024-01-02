@@ -9,7 +9,7 @@ use App\Mail\StudentMail;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateStudentProfile;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
+use \CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class StudentController extends Controller
 {
@@ -52,16 +52,15 @@ class StudentController extends Controller
             $user = auth()->user();
 
             $oldProfilePhoto = $user->profile_photo;
-            $user->update(['profile_photo' => null]);
-
-            $profilePhoto = $request->file('profile_photo');
-            $profilePhotoPath = $profilePhoto->store('profiles', 'public');
-
-            $user->update(['profile_photo' => basename($profilePhotoPath)]);
 
             if ($oldProfilePhoto) {
-                Storage::disk('public')->delete('profiles/' . $oldProfilePhoto);
+                Cloudinary::destroy($oldProfilePhoto);
             }
+
+            $profilePhoto = $request->file('profile_photo');
+            $profilePhotoPath = $profilePhoto->storeOnCloudinary()->getPublicId();
+
+            $user->update(['profile_photo' => $profilePhotoPath]);
 
             $userResource = new StudentResource($user);
 

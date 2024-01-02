@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use \App\Models\Student;
 use \App\Models\SuperAdmin;
 use App\Http\Resources\StudentResource;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
@@ -18,13 +19,14 @@ class AuthController extends Controller
 
     public function signup(SignUpStudentRequest $request)
     {
-
         try {
+
+
             $data = $request->validated();
             $profilePhotoPath = null;
 
             if ($request->hasFile('profile_photo')) {
-                $profilePhotoPath = $request->file('profile_photo')->store('profiles', 'public');
+                $profilePhotoPath = $request->file('profile_photo')->storeOnCloudinary()->getPublicId();
             }
 
             $user = Student::create([
@@ -33,7 +35,7 @@ class AuthController extends Controller
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
                 'career' => $data['career'],
-                'profile_photo' => basename($profilePhotoPath),
+                'profile_photo' => $profilePhotoPath,
             ]);
 
             $token = $user->createToken('main')->plainTextToken;

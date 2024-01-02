@@ -19,11 +19,8 @@
         "APP_ROUTES_CACHE": "/tmp/routes.php",
         "APP_SERVICES_CACHE": "/tmp/services.php",
         "VIEW_COMPILED_PATH": "/tmp",
-        "TMPDIR": "/var/task/user/storage/framework/tmp",
-        "SESSION_DRIVER": "cookie",
-        "CACHE_DRIVER": "file",
-        "CACHE_DIR": "/var/task/user/storage/framework/cache/data",
-        "CACHE_PREFIX": "prefix",
-        "APP_STORAGE": "/var/task/user/storage"
+        "CACHE_DRIVER": "array",
+        "LOG_CHANNEL": "stderr",
+        "SESSION_DRIVER": "cookie"
     }
 }
