@@ -11,8 +11,6 @@ use Illuminate\Http\Request;
 use \App\Models\Student;
 use \App\Models\SuperAdmin;
 use App\Http\Resources\StudentResource;
-use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
-use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -71,8 +69,6 @@ class AuthController extends Controller
                 'token' => $token
             ]);
 
-
-
         } catch (\Exception $e) {
             \Log::error($e);
             error_log($e->getMessage());
@@ -102,12 +98,19 @@ class AuthController extends Controller
                 return response()->json(['messageVerification' => 'Su cuenta aún no ha sido verificada. Por favor, revise su casilla de correo electrónico o comuníquese con la institución.'], 422);
             }
 
+            $profilePhotoPath = null;
+
+            if ($request->hasFile('profile_photo')) {
+                $profilePhotoPath = $request->file('profile_photo')->storeOnCloudinary()->getPublicId();
+            }
+
             Auth::login($user);
             $request->session()->regenerate();
             $token = $user->createToken('main')->plainTextToken;
+            $userResource = new StudentResource($user);
 
             return response([
-                'user' => $user,
+                'user' => $userResource,
                 'token' => $token
             ]);
 
