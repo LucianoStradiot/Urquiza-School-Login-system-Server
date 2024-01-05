@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->string('career');
             $table->string('password', 60);
+            $table->string('notifications')->nullable();
             $table->timestamps();
         });
     }

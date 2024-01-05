@@ -111,7 +111,8 @@ class AuthController extends Controller
 
             return response([
                 'user' => $userResource,
-                'token' => $token
+                'token' => $token,
+                'notifications' => $user instanceof SuperAdmin ? $user->notifications : [],
             ]);
 
         } catch (\Exception $e) {
