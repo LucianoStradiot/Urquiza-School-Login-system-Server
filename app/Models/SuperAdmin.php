@@ -13,7 +13,8 @@ class SuperAdmin extends Authenticatable
     protected $fillable = [
         'email',
         'password',
-        'career'
+        'career',
+        'notifications'
     ];
 
     protected $hidden = [
