@@ -25,7 +25,7 @@
         <div style="padding: 20px; font-weight: 600; color: black">
             @if ($approved)
             <p>Felicidades , tu registro con el email {{$email}} ha sido aprobado.</p>
-            <a href="https://urquiza-login-system-app.vercel.app/login" target='_blank' style="margin-top: 10px">Haz
+            <a href="https://urquiza-school.vercel.app/login" target='_blank' style="margin-top: 10px">Haz
                 click aquí si
                 deseas iniciar
                 sesión</a>
