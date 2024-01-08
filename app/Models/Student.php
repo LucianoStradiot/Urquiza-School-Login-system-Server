@@ -22,6 +22,8 @@ class Student extends Authenticatable
         'career',
         'approved',
         'profile_photo',
+        'reset_password_token',
+        'reset_password_used',
     ];
 
 

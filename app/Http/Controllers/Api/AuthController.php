@@ -11,6 +11,10 @@ use Illuminate\Http\Request;
 use \App\Models\Student;
 use \App\Models\SuperAdmin;
 use App\Http\Resources\StudentResource;
+use App\Http\Requests\ForgotPasswordRequest; 
+use App\Http\Requests\ResetPasswordRequest; 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ResetPasswordMail;
 
 class AuthController extends Controller
 {
@@ -122,6 +126,48 @@ class AuthController extends Controller
     }
 
 
+    public function forgotPassword(ForgotPasswordRequest $request)
+    {
+        
+        $user = Student::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'No se encontró un usuario con este correo electrónico'], 404);
+        }
+        if ($user instanceof Student && !$user->approved) {
+            return response()->json(['messageVerification' => 'Su cuenta aún no ha sido verificada. Por favor, revise su casilla de correo electrónico o comuníquese con la institución.'], 422);
+        }
+
+        $user->update(['reset_password_used' => false]);
+
+        $token = app('auth.password.broker')->createToken($user);
+        $user->update(['reset_password_token' => $token]);
+
+        $frontendResetLink = env('FRONTEND_URL') . '/reset-password/' . $token;
+        $name = $user->name;
+
+        Mail::to($user->email)->send(new ResetPasswordMail($frontendResetLink, $name));
+
+        return response()->json(['message' => 'Enlace de restablecimiento de contraseña enviado al correo electrónico.']);
+    }
+
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+
+        $user = Student::where('email', $request->email)->where('reset_password_token', $request->token)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Token inválido o correo electrónico incorrecto'], 422);
+        }
+
+        $user->update([
+            'password' => bcrypt($request->password),
+            'reset_password_token' => null,
+            'reset_password_used' => true,
+        ]);
+
+        return response()->json(['message' => 'Contraseña restablecida con éxito']);
+    }
 
     public function logout(Request $request)
     {

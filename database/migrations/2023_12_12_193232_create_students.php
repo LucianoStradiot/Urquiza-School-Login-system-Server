@@ -19,6 +19,9 @@ return new class extends Migration {
             $table->boolean('approved')->default(false);
             $table->rememberToken();
             $table->timestamps();
+            $table->string('reset_password_token')->nullable();
+            $table->boolean('reset_password_used')->default(false);
+
         });
     }
 
