@@ -107,6 +107,7 @@ class StudentController extends Controller
         }
     }
 
+
     public function destroy(Request $request, Student $id)
     {
         try {
