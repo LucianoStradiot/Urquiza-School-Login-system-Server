@@ -17,10 +17,9 @@ return new class extends Migration {
             $table->string('career')->default('');
             $table->string('profile_photo')->nullable();
             $table->boolean('approved')->default(false);
-            $table->rememberToken();
-            $table->timestamps();
             $table->string('reset_password_token')->nullable();
             $table->boolean('reset_password_used')->default(false);
+            $table->timestamps();
 
         });
     }
