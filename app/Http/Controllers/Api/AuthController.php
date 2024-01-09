@@ -128,10 +128,8 @@ class AuthController extends Controller
         }
     }
 
-
     public function forgotPassword(ForgotPasswordRequest $request)
     {
-        
         $user = Student::where('email', $request->email)->first();
 
         if (!$user) {
