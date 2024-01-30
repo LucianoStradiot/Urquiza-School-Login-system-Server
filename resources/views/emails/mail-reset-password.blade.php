@@ -27,7 +27,7 @@
             <a href="{{ $resetLink }}">Restablecer contraseña</a>
         </div>
         <img style="height: 350px; border-radius: 5px; margin-bottom: 20px"
-            src="https://scontent.faep9-1.fna.fbcdn.net/v/t1.18169-9/29597510_10155509264402149_7415407965392304674_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=9a8829&_nc_ohc=l8spp75GlhsAX_KAJwD&_nc_ht=scontent.faep9-1.fna&oh=00_AfBifI7OVS29Ynvl83KxcXX3dNYB6_4J8riJa7D6kDEBIQ&oe=65AD1705"
+            src="https://scontent.fros2-2.fna.fbcdn.net/v/t1.18169-9/29597510_10155509264402149_7415407965392304674_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=9a8829&_nc_ohc=keGgxWm7dD4AX_gxOCs&_nc_ht=scontent.fros2-2.fna&oh=00_AfBFOOT8ePBMLophOzb45C5lvvF8T4RKZsQ50bMoYXVyGQ&oe=65E08185"
             alt="" />
         <div style="
           background-color: #757474;
